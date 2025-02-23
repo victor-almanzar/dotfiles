@@ -1,0 +1,7 @@
+theme = tokyonight_night
+keybind = ctrl+alt+r=reload_config
+keybind = f11=toggle_fullscreen
+font-size = 14
+command = /usr/bin/fish
+window-theme = ghostty
+gtk-titlebar-hide-when-maximized = true
