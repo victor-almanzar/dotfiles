@@ -1,2 +1,4 @@
 .git
-setup
+dnf_copr
+dnf_pkgs
+setup.sh
