@@ -91,7 +91,6 @@
         - ghostty
         - eza
 
-    # Copy config files
     - name: Copy fish config files
       ansible.builtin.copy:
         src: "{{ playbook_dir }}/config/fish/"
@@ -115,7 +114,6 @@
         dest: "{{ ansible_env.HOME }}/.config/ghostty/config"
         mode: '0644'
 
-    # Update fish path in tmux.conf for macOS
     - name: Update fish path in tmux config - macOS
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.config/tmux/tmux.conf"
@@ -123,7 +121,6 @@
         line: 'set -g default-shell /opt/homebrew/bin/fish'
       when: ansible_facts['os_family'] == 'Darwin'
 
-    # Update fish path in ghostty config for macOS
     - name: Update fish path in ghostty config - macOS
       ansible.builtin.lineinfile:
         path: "{{ ansible_env.HOME }}/.config/ghostty/config"
@@ -131,21 +128,26 @@
         line: 'command = /opt/homebrew/bin/fish'
       when: ansible_facts['os_family'] == 'Darwin'
 
-    # LazyVim setup
+    - name: Get latest LazyVim version
+      ansible.builtin.uri:
+        url: https://api.github.com/repos/LazyVim/LazyVim/releases/latest
+        method: GET
+        return_content: true
+      register: lazyvim
+
     - name: Clone LazyVim starter
       ansible.builtin.git:
         repo: https://github.com/LazyVim/starter
         dest: "{{ ansible_env.HOME }}/.config/nvim"
+        version: "{{ lazyvim.json.tag_name }}"
         clone: true
         force: true
-        update: no
 
     - name: Remove .git directory from LazyVim
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.config/nvim/.git"
         state: absent
 
-    # TokyoNight theme symlinks
     - name: Create symlink for bat TokyoNight theme
       ansible.builtin.file:
         src: "{{ ansible_env.HOME }}/.local/share/nvim/lazy/tokyonight.nvim/extras/sublime/tokyonight_night.tmTheme"
@@ -160,7 +162,37 @@
         state: link
         force: true
 
-    # Build bat cache
     - name: Build bat cache
       ansible.builtin.command: bat cache --build
       changed_when: false
+
+    - name: Set fish executable path based on OS
+      ansible.builtin.set_fact:
+        fish_executable: "{{ '/opt/homebrew/bin/fish' if ansible_facts['os_family'] == 'Darwin' else '/usr/bin/fish' }}"
+
+    - name: Check if Fisher is installed
+      ansible.builtin.stat:
+        path: "{{ ansible_env.HOME }}/.config/fish/functions/fisher.fish"
+      register: fisher_installed
+
+    - name: Install Fisher if not present
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish
+        dest: "{{ ansible_env.HOME }}/.config/fish/functions/fisher.fish"
+        mode: '0644'
+      when: not fisher_installed.stat.exists
+
+    - name: Install Fisher packages
+      ansible.builtin.shell: "source {{ ansible_env.HOME }}/.config/fish/functions/fisher.fish && fisher install jorgebucaran/fisher"
+      args:
+        executable: "{{ fish_executable }}"
+      register: fisher_install
+      changed_when: "fisher_install.stdout is search('Installed')"
+      when: not fisher_installed.stat.exists
+
+    - name: Update Fisher packages
+      ansible.builtin.shell: "fisher update"
+      args:
+        executable: "{{ fish_executable }}"
+      register: fisher_update
+      changed_when: "fisher_update.stdout is search('Updated')"
