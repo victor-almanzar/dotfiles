@@ -169,25 +169,57 @@
         line: 'command = /opt/homebrew/bin/fish'
       when: ansible_facts['os_family'] == 'Darwin'
 
-    - name: Get latest LazyVim version
-      ansible.builtin.uri:
-        url: https://api.github.com/repos/LazyVim/LazyVim/releases/latest
-        method: GET
-        return_content: true
-      register: lazyvim
+    - name: Remove existing Neovim configuration directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - "{{ ansible_env.HOME }}/.config/nvim"
+        - "{{ ansible_env.HOME }}/.local/share/nvim"
+        - "{{ ansible_env.HOME }}/.local/state/nvim"
+        - "{{ ansible_env.HOME }}/.cache/nvim"
 
     - name: Clone LazyVim starter
       ansible.builtin.git:
         repo: https://github.com/LazyVim/starter
         dest: "{{ ansible_env.HOME }}/.config/nvim"
-        version: "{{ lazyvim.json.tag_name }}"
+        version: "main"
         clone: true
-        force: true
 
     - name: Remove .git directory from LazyVim
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.config/nvim/.git"
         state: absent
+
+    - name: Load lazyvim.json
+      ansible.builtin.slurp:
+        src: "{{ ansible_env.HOME }}/.config/nvim/lazyvim.json"
+      register: lazyvim_json
+
+    - name: Set desired LazyVim extras
+      ansible.builtin.set_fact:
+        lazyvim_data: "{{ lazyvim_json.content | b64decode | from_json }}"
+        lazyvim_extras:
+          - "lazyvim.plugins.extras.editor.fzf"
+          - "lazyvim.plugins.extras.lang.ansible"
+          - "lazyvim.plugins.extras.lang.docker"
+          - "lazyvim.plugins.extras.lang.json"
+          - "lazyvim.plugins.extras.lang.markdown"
+          - "lazyvim.plugins.extras.lang.python"
+          - "lazyvim.plugins.extras.lang.sql"
+          - "lazyvim.plugins.extras.lang.terraform"
+          - "lazyvim.plugins.extras.lang.toml"
+          - "lazyvim.plugins.extras.lang.yaml"
+
+    - name: Update extras in lazyvim data
+      ansible.builtin.set_fact:
+        lazyvim_data: "{{ lazyvim_data | combine({'extras': lazyvim_extras}) }}"
+
+    - name: Write updated lazyvim.json
+      ansible.builtin.copy:
+        content: "{{ lazyvim_data | to_nice_json }}"
+        dest: "{{ ansible_env.HOME }}/.config/nvim/lazyvim.json"
+        mode: '0644'
 
     - name: Create symlink for bat TokyoNight theme
       ansible.builtin.file:
