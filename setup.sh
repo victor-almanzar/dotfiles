@@ -31,6 +31,19 @@ if [ "$OS" = "Darwin" ]; then
         brew install ansible
     fi
     
+    # Check if direnv is installed
+    if ! command -v direnv &> /dev/null; then
+        echo "Installing direnv..."
+        brew install direnv
+    fi
+    
+    # Enable direnv
+    echo "Enabling direnv..."
+    direnv allow .
+    
+    # Evaluate direnv
+    eval "$(direnv export bash)"
+    
 elif [ "$OS" = "Linux" ]; then
     # Check if it's Fedora
     if grep -q "^ID=fedora" /etc/os-release; then

@@ -9,6 +9,7 @@
         name:
           - python
           - ansible
+          - ansible-lint
           - bat
           - eza
           - fd
@@ -70,6 +71,8 @@
           - opentofu
           - uv
           - ghostty
+          - ansible-lint
+          - direnv
         state: present
       become: true
       when: ansible_facts['distribution'] == 'Fedora'
@@ -100,7 +103,6 @@
         src: "{{ playbook_dir }}/config/bat/"
         dest: "{{ ansible_env.HOME }}/.config/bat/"
         mode: '0644'
-        
     - name: Copy tmux config
       ansible.builtin.copy:
         src: "{{ playbook_dir }}/config/tmux/tmux.conf"
@@ -134,8 +136,9 @@
       ansible.builtin.git:
         repo: https://github.com/LazyVim/starter
         dest: "{{ ansible_env.HOME }}/.config/nvim"
-        clone: yes
-        force: yes
+        clone: true
+        force: true
+        update: no
 
     - name: Remove .git directory from LazyVim
       ansible.builtin.file:
@@ -148,14 +151,14 @@
         src: "{{ ansible_env.HOME }}/.local/share/nvim/lazy/tokyonight.nvim/extras/sublime/tokyonight_night.tmTheme"
         dest: "{{ ansible_env.HOME }}/.config/bat/themes/tokyonight_night.tmTheme"
         state: link
-        force: yes
+        force: true
 
     - name: Create symlink for eza TokyoNight theme
       ansible.builtin.file:
         src: "{{ ansible_env.HOME }}/.local/share/nvim/lazy/tokyonight.nvim/extras/eza/tokyonight.yml"
         dest: "{{ ansible_env.HOME }}/.config/eza/tokyonight.yml"
         state: link
-        force: yes
+        force: true
 
     # Build bat cache
     - name: Build bat cache
