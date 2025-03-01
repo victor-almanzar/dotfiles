@@ -32,6 +32,13 @@
         state: present
       when: ansible_facts['os_family'] == 'Darwin'
 
+    - name: Create macOS-specific gitignore_global
+      ansible.builtin.copy:
+        content: ".DS_Store\n"
+        dest: "{{ ansible_env.HOME }}/.gitignore_global"
+        mode: '0644'
+      when: ansible_facts['os_family'] == 'Darwin'
+
     - name: Install macOS casks with Homebrew
       community.general.homebrew_cask:
         name:
@@ -73,8 +80,36 @@
           - ghostty
           - ansible-lint
           - direnv
+          - flatpak
         state: present
       become: true
+      when: ansible_facts['distribution'] == 'Fedora'
+
+    - name: Install Flatpak applications
+      community.general.flatpak:
+        name:
+          - com.github.johnfactotum.Foliate
+          - com.valvesoftware.Steam
+          - com.github.tchx84.Flatseal
+          - io.github.flattool.Warehouse
+          - com.spotify.Client
+          - md.obsidian.Obsidian
+        state: present
+      become: true
+      when: ansible_facts['distribution'] == 'Fedora'
+
+    - name: Create Foliate themes directory
+      ansible.builtin.file:
+        path: "{{ ansible_env.HOME }}/.var/app/com.github.johnfactotum.Foliate/config/com.github.johnfactotum.Foliate/themes"
+        state: directory
+        mode: '0755'
+      when: ansible_facts['distribution'] == 'Fedora'
+
+    - name: Copy Foliate theme
+      ansible.builtin.copy:
+        src: "{{ playbook_dir }}/var/app/com.github.johnfactotum.Foliate/config/com.github.johnfactotum.Foliate/themes/tokyonight_night.json"
+        dest: "{{ ansible_env.HOME }}/.var/app/com.github.johnfactotum.Foliate/config/com.github.johnfactotum.Foliate/themes/tokyonight_night.json"
+        mode: '0644'
       when: ansible_facts['distribution'] == 'Fedora'
 
     # ==== Common tasks for both OS ====
@@ -90,6 +125,12 @@
         - bat/themes
         - ghostty
         - eza
+
+    - name: Create .gitconfig from gitconfig
+      ansible.builtin.copy:
+        src: "{{ playbook_dir }}/gitconfig"
+        dest: "{{ ansible_env.HOME }}/.gitconfig"
+        mode: '0644'
 
     - name: Copy fish config files
       ansible.builtin.copy:

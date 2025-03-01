@@ -12,6 +12,7 @@
 - `.envrc` - Environment variables for direnv (fixes Ansible collections path)
 - `playbook.yml` - Ansible playbook for automated setup
 - `setup.sh` - Main setup script
+- `gitconfig` - Git configuration template (copied to ~/.gitconfig)
 
 ## Code Style
 - **YAML**: 2-space indentation for Ansible playbooks
@@ -25,6 +26,8 @@
 ## Platform Support
 - macOS (uses Homebrew)
 - Fedora Linux (uses DNF)
+  - Flatpak support for additional applications (Foliate, Steam, Flatseal, etc.)
+  - Application data (themes, etc.) stored in ~/.var directory
 
 ## Known Issues
 - `ansible-lint` may report "couldn't resolve module/action 'community.general.homebrew'" even when the module exists
