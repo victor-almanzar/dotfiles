@@ -8,9 +8,9 @@
       community.general.homebrew:
         name:
           - python
-          - ansible
           - ansible-lint
           - bat
+          - broot
           - eza
           - fd
           - fish
@@ -60,27 +60,29 @@
     - name: Install Fedora packages
       ansible.builtin.dnf:
         name:
-          - lazygit
-          - tealdeer
+          - ansible-lint
           - bat
+          - broot
+          - direnv
           - eza
-          - fish
-          - htop
-          - tmux
-          - fzf
-          - neovim
-          - ripgrep
           - fd-find
+          - fish
+          - flatpak
+          - fzf
           - gcc
+          - gh
+          - ghostty
+          - htop
+          - lazygit
+          - neovim
+          - opentofu
           - podlet
           - podman-tui
-          - gh
-          - opentofu
+          - ripgrep
+          - tealdeer
+          - tmux
+          - tree
           - uv
-          - ghostty
-          - ansible-lint
-          - direnv
-          - flatpak
         state: present
       become: true
       when: ansible_facts['distribution'] == 'Fedora'
@@ -126,15 +128,21 @@
         - ghostty
         - eza
 
-    - name: Create .gitconfig from gitconfig
+    - name: Copy .gitconfig 
       ansible.builtin.copy:
         src: "{{ playbook_dir }}/gitconfig"
         dest: "{{ ansible_env.HOME }}/.gitconfig"
         mode: '0644'
 
-    - name: Copy fish config files
+    - name: Copy config.fish
+      ansible.builtin.template:
+        src: "{{ playbook_dir }}/config/fish/config.fish"
+        dest: "{{ ansible_env.HOME }}/.config/fish/"
+        mode: '0644'
+
+    - name: Copy fish_plugins
       ansible.builtin.copy:
-        src: "{{ playbook_dir }}/config/fish/"
+        src: "{{ playbook_dir }}/config/fish/fish_plugins"
         dest: "{{ ansible_env.HOME }}/.config/fish/"
         mode: '0644'
 
@@ -143,15 +151,16 @@
         src: "{{ playbook_dir }}/config/bat/"
         dest: "{{ ansible_env.HOME }}/.config/bat/"
         mode: '0644'
+
     - name: Copy tmux config
       ansible.builtin.copy:
-        src: "{{ playbook_dir }}/config/tmux/tmux.conf"
+        src: "files/tmux_config"
         dest: "{{ ansible_env.HOME }}/.config/tmux/tmux.conf"
         mode: '0644'
 
-    - name: Copy ghostty config
-      ansible.builtin.copy:
-        src: "{{ playbook_dir }}/config/ghostty/config"
+    - name: Build ghostty config
+      ansible.builtin.template:
+        src: "files/ghostty_config"
         dest: "{{ ansible_env.HOME }}/.config/ghostty/config"
         mode: '0644'
 
@@ -191,14 +200,18 @@
         path: "{{ ansible_env.HOME }}/.config/nvim/.git"
         state: absent
 
-    - name: Load lazyvim.json
-      ansible.builtin.slurp:
-        src: "{{ ansible_env.HOME }}/.config/nvim/lazyvim.json"
-      register: lazyvim_json
-
-    - name: Set desired LazyVim extras
-      ansible.builtin.set_fact:
-        lazyvim_data: "{{ lazyvim_json.content | b64decode | from_json }}"
+    - name: Update LazyVim extras configuration in lazy.lua
+      ansible.builtin.blockinfile:
+        path: ~/.config/nvim/lua/config/lazy.lua
+        marker: "-- {mark} ANSIBLE MANAGED BLOCK"
+        content: |
+          {% for item in lazyvim_extras %}
+              { import = "{{ item }}" },
+          {% endfor %}
+        insertafter: >
+          { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+        backup: true
+      vars:
         lazyvim_extras:
           - "lazyvim.plugins.extras.editor.fzf"
           - "lazyvim.plugins.extras.lang.ansible"
@@ -211,29 +224,21 @@
           - "lazyvim.plugins.extras.lang.toml"
           - "lazyvim.plugins.extras.lang.yaml"
 
-    - name: Update extras in lazyvim data
-      ansible.builtin.set_fact:
-        lazyvim_data: "{{ lazyvim_data | combine({'extras': lazyvim_extras}) }}"
 
-    - name: Write updated lazyvim.json
-      ansible.builtin.copy:
-        content: "{{ lazyvim_data | to_nice_json }}"
-        dest: "{{ ansible_env.HOME }}/.config/nvim/lazyvim.json"
-        mode: '0644'
-
-    - name: Create symlink for bat TokyoNight theme
-      ansible.builtin.file:
-        src: "{{ ansible_env.HOME }}/.local/share/nvim/lazy/tokyonight.nvim/extras/sublime/tokyonight_night.tmTheme"
-        dest: "{{ ansible_env.HOME }}/.config/bat/themes/tokyonight_night.tmTheme"
-        state: link
-        force: true
-
-    - name: Create symlink for eza TokyoNight theme
-      ansible.builtin.file:
-        src: "{{ ansible_env.HOME }}/.local/share/nvim/lazy/tokyonight.nvim/extras/eza/tokyonight.yml"
-        dest: "{{ ansible_env.HOME }}/.config/eza/tokyonight.yml"
-        state: link
-        force: true
+    # Pull from repo directly
+    # - name: Create symlink for bat TokyoNight theme
+    #   ansible.builtin.file:
+    #     src: "{{ ansible_env.HOME }}/.local/share/nvim/lazy/tokyonight.nvim/extras/sublime/tokyonight_night.tmTheme"
+    #     dest: "{{ ansible_env.HOME }}/.config/bat/themes/tokyonight_night.tmTheme"
+    #     state: link
+    #     force: true
+    #
+    # - name: Create symlink for eza TokyoNight theme
+    #   ansible.builtin.file:
+    #     src: "{{ ansible_env.HOME }}/.local/share/nvim/lazy/tokyonight.nvim/extras/eza/tokyonight.yml"
+    #     dest: "{{ ansible_env.HOME }}/.config/eza/tokyonight.yml"
+    #     state: link
+    #     force: true
 
     - name: Build bat cache
       ansible.builtin.command: bat cache --build

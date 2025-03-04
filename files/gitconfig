@@ -1,0 +1,10 @@
+[user]
+	name = Victor Almanzar
+	email = 105403994+victor-almanzar@users.noreply.github.com
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[core]
+	editor = nvim
+	pager = bat

@@ -1,0 +1,13 @@
+{
+  "label": "Tokyo Night",
+  "light": {
+    "fg": "#3760bf",
+    "bg": "#e1e2e7",
+    "link": "#2e7de9"
+  },
+  "dark": {
+    "fg": "#c0caf5",
+    "bg": "#1a1b26",
+    "link": "#7aa2f7"
+  }
+}
