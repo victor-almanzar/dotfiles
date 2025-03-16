@@ -6,16 +6,17 @@
     line: "{{ item.line }}"
     state: present
   loop:
-    - path: "{{ ansible_env.HOME }}/.config/fish/config.fish"
-      insertafter: 'if status is-interactive'
-      line: '    # homebrew\n    /opt/homebrew/bin/brew shellenv \| source\n'
-
     - path: "{{ ansible_env.HOME }}/.config/ghostty/config"
       insertafter: '# Options'
       line: |
         command = /opt/homebrew/bin/fish
         font-size = 18
         macos-option-as-alt = true
+
+    - path: "{{ ansible_env.HOME }}/.config/fish/config.fish"
+      insertafter: 'if status is-interactive'
+      line: '    # homebrew\n    /opt/homebrew/bin/brew shellenv \| source\n'
+
 
 - name: MacOSX | Ensure tealdeer directory exists
   ansible.builtin.file:
