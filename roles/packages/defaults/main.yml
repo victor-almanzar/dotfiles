@@ -4,7 +4,6 @@ common_packages:
   - bat
   - coreutils
   - eza
-  - ffmpeg
   - fish
   - fzf
   - gcc
@@ -25,9 +24,11 @@ common_packages:
 macos_packages:
   - python
   - fd  # macOS uses 'fd' instead of 'fd-find'
+  - ffmpeg
 
 # Fedora specific packages
 fedora_packages:
+  - ffmpeg-free
   - fd-find
   - flatpak
   - ghostty
