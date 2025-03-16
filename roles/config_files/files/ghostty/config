@@ -1,0 +1,31 @@
+# Options
+command = /opt/homebrew/bin/fish
+font-size = 18
+theme = tokyonight_night
+shell-integration = fish
+gtk-titlebar-hide-when-maximized = true
+macos-option-as-alt = true
+split-divider-color = 7AA2f7
+
+# Prefix keybinds
+keybind = alt+c=new_tab
+keybind = alt+p=previous_tab
+keybind = alt+n=next_tab
+keybind = alt+x=close_surface
+keybind = alt+z=toggle_split_zoom
+keybind = alt+e=text:nvim\r
+keybind = alt+r=reload_config
+keybind = alt+s=new_split:down
+keybind = alt+v=new_split:right
+keybind = alt+space=equalize_splits
+keybind = alt+f=toggle_fullscreen
+
+keybind = alt+h=goto_split:left
+keybind = alt+j=goto_split:down
+keybind = alt+k=goto_split:up
+keybind = alt+l=goto_split:right
+
+keybind = alt+shift+h=resize_split:left,50
+keybind = alt+shift+j=resize_split:down,50
+keybind = alt+shift+k=resize_split:up,50
+keybind = alt+shift+l=resize_split:right,50
