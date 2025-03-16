@@ -1,16 +1,16 @@
 ---
 - name: Synchronize config directory to user's ~/.config
   ansible.posix.synchronize:
-    src: "{{ role_path }}/files/config/"
+    src: "{{ role_path }}/files/"
     dest: "{{ ansible_env.HOME }}/.config/"
     recursive: true
 
 - name: Include Fedora specific tasks
-  ansible.builtin.include_tasks: fedora.yml
+  ansible.builtin.include_tasks: Fedora.yml
   when: ansible_facts['distribution'] == 'Fedora'
 
 - name: Include macOS specific tasks
-  ansible.builtin.include_tasks: macos.yml
+  ansible.builtin.include_tasks: MacOSX.yml
   when: ansible_facts['distribution'] == 'MacOSX'
 
 - name: Build bat cache
