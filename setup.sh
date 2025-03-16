@@ -46,11 +46,6 @@ elif [ "$OS" = "Linux" ]; then
 		echo "Fedora detected"
 		PLATFORM="fedora"
 
-		# Check if Python is installed
-		if ! command -v python3 &>/dev/null; then
-			echo "Installing Python..."
-			sudo dnf install -y python3 python3-pip
-		fi
 
 		# Create and activate virtual environment
 		echo "Creating virtual environment..."
@@ -66,6 +61,11 @@ elif [ "$OS" = "Linux" ]; then
 		echo "Unsupported Linux distribution. Only Fedora is currently supported."
 		exit 1
 	fi
+    # Check if Python is installed
+    if ! rpm -q python3 python3-pip python3-libdnf5 &>/dev/null; then
+      echo "Installing Python..."
+      sudo dnf install -y python3 python3-pip python3-libdnf5
+    fi
 else
 	echo "Unsupported operating system: $OS"
 	exit 1
