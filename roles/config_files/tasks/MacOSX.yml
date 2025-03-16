@@ -15,8 +15,9 @@
 
     - path: "{{ ansible_env.HOME }}/.config/fish/config.fish"
       insertafter: 'if status is-interactive'
-      line: '    # homebrew\n    /opt/homebrew/bin/brew shellenv \| source\n'
-
+      line: |4
+              # homebrew
+              /opt/homebrew/bin/brew shellenv | source
 
 - name: MacOSX | Ensure tealdeer directory exists
   ansible.builtin.file:
