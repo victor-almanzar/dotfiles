@@ -8,5 +8,6 @@
 [core]
 	editor = nvim
 	pager = bat
+	ignorecase = false
 
 # vim: ft=gitconfig
