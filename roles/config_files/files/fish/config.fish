@@ -34,10 +34,6 @@ if status is-interactive
     # abbreviations
     abbr vim nvim
     abbr vi nvim
-    abbr ll "eza -lh --git --icons --time-style=iso --git-repos-no-status"
-    abbr l. "ll -a -d .*"
-    abbr ls "ll -1"
-    abbr la "ll -a"
     abbr ga "git add"
     abbr gc "git commit"
     abbr gp "git push"
@@ -45,6 +41,12 @@ if status is-interactive
     abbr gd "git diff"
     abbr grep rg
     abbr find fd
+
+    # aliases
+    alias ll "eza -lh --git --icons --time-style=iso --git-repos-no-status"
+    alias l. "ll -a -d .*"
+    alias ls "ll -1"
+    alias la "ll -a"
 end
 
 # vim: set ft=fish ts=4 sw=4 et:
