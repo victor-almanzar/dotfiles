@@ -1,22 +1,4 @@
 ---
-- name: Fedora | Apply Fedora-specific file modifications
-  ansible.builtin.replace:
-    path: "{{ item.path }}"
-    regexp: "{{ item.regexp }}"
-    replace: "{{ item.replace }}"
-  loop:
-    - path: "{{ ansible_env.HOME }}/.config/fish/config.fish"
-      regexp: '# homebrew\n    /opt/homebrew/bin/brew shellenv \| source\n'
-      replace: ''
-
-    - path: "{{ ansible_env.HOME }}/.config/ghostty/config"
-      regexp: 'font-size = 18'
-      replace: 'font-size = 14'
-
-    - path: "{{ ansible_env.HOME }}/.config/fish/config.fish"
-      regexp: '\n# homebrew\n    /opt/homebrew/bin/brew shellenv \| source\n'
-      replace: ''
-
 - name: Fedora | Apply Fedora-specific file additions
   ansible.builtin.lineinfile:
     path: "{{ item.path }}"
@@ -26,7 +8,11 @@
   loop:
     - path: "{{ ansible_env.HOME }}/.config/ghostty/config"
       insertafter: '# Options'
-      line: 'window-theme = ghostty'
+      line: |
+        window-theme = ghostty
+        command = /usr/bin/fish
+        font-size = 14
+        gtk-titlebar-hide-when-maximized = true
 
 - name: Fedora | Ensure Foliate theme directory exists
   ansible.builtin.file:
