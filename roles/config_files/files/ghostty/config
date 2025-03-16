@@ -1,10 +1,6 @@
 # Options
-command = /opt/homebrew/bin/fish
-font-size = 18
 theme = tokyonight_night
 shell-integration = fish
-gtk-titlebar-hide-when-maximized = true
-macos-option-as-alt = true
 split-divider-color = 7AA2f7
 
 # Prefix keybinds

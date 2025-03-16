@@ -7,9 +7,6 @@ if status is-interactive
     fish_add_path -g ~/.local/bin
     fish_add_path -g ~/.cargo/bin
 
-    # homebrew
-    /opt/homebrew/bin/brew shellenv | source
-
     # starship
     set -gx STARSHIP_CONFIG "$HOME/.config/starship/config.toml"
     starship init fish | source
