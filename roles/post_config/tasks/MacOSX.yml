@@ -1,0 +1,6 @@
+- name: MacOSX | Enable sshd
+  community.general.launchd:
+    name: com.openssh.sshd
+    state: started
+    enabled: true
+  become: true
