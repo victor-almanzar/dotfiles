@@ -1,0 +1,49 @@
+---
+# Common packages for all distributions
+common_packages:
+  - bat
+  - coreutils
+  - eza
+  - ffmpeg
+  - fish
+  - fzf
+  - gcc
+  - gh
+  - git
+  - htop
+  - lazygit
+  - neovim
+  - podlet
+  - podman
+  - podman-tui
+  - ripgrep
+  - starship
+  - tealdeer
+  - uv
+
+# macOS specific packages
+macos_packages:
+  - python
+  - fd  # macOS uses 'fd' instead of 'fd-find'
+
+# Fedora specific packages
+fedora_packages:
+  - fd-find
+  - flatpak
+  - ghostty
+
+# Fedora COPR repositories
+fedora_copr_repos:
+  - pgdev/ghostty
+  - atim/lazygit
+  - atim/starship
+
+# macOS casks
+macos_casks:
+  - ghostty
+
+# Fedora flatpaks
+fedora_flatpaks:
+  - com.github.johnfactotum.Foliate
+  - com.github.tchx84.Flatseal
+  - io.github.flattool.Warehouse

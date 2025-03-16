@@ -1,0 +1,8 @@
+---
+- name: Setup dotfiles and development environment
+  hosts: all
+  gather_facts: true
+  roles:
+    - packages
+    - lazyvim
+    - config_files

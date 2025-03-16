@@ -1,0 +1,38 @@
+---
+- name: Check Neovim directories existence
+  ansible.builtin.stat:
+    path: "{{ item }}"
+  loop:
+    - "{{ ansible_env.HOME }}/.config/nvim"
+    - "{{ ansible_env.HOME }}/.local/share/nvim"
+    - "{{ ansible_env.HOME }}/.local/state/nvim"
+    - "{{ ansible_env.HOME }}/.cache/nvim"
+  register: nvim_dirs
+
+- name: Backup existing Neovim directories
+  ansible.builtin.copy:
+    src: "{{ item.item }}"
+    dest: "{{ item.item }}.bak"
+    remote_src: true
+    mode: 'preserve'
+  loop: "{{ nvim_dirs.results }}"
+  when: item.stat.exists and item.stat.isdir
+
+- name: Remove existing Neovim directories
+  ansible.builtin.file:
+    path: "{{ item.item }}"
+    state: absent
+  loop: "{{ nvim_dirs.results }}"
+  when: item.stat.exists and item.stat.isdir
+
+- name: Clone LazyVim starter
+  ansible.builtin.git:
+    repo: https://github.com/LazyVim/starter
+    dest: "{{ ansible_env.HOME }}/.config/nvim"
+    version: "main"
+    clone: true
+
+- name: Remove .git directory from LazyVim
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.config/nvim/.git"
+    state: absent
