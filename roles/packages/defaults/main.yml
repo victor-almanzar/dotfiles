@@ -41,9 +41,12 @@ fedora_copr_repos:
 # macOS casks
 macos_casks:
   - ghostty
+  - spotify
+  - steam
 
 # Fedora flatpaks
 fedora_flatpaks:
   - com.github.johnfactotum.Foliate
   - com.github.tchx84.Flatseal
   - io.github.flattool.Warehouse
+  - com.valvesoftware.Steam
