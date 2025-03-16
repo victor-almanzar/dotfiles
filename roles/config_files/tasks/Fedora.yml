@@ -8,7 +8,7 @@
   loop:
     - path: "{{ ansible_env.HOME }}/.config/ghostty/config"
       insertafter: '# Options'
-      line: |
+      line: |-
         window-theme = ghostty
         command = /usr/bin/fish
         font-size = 14
