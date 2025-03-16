@@ -1,6 +1,0 @@
----
-- hosts: localhost
-  tasks:
-    - copy:
-        content: "{{ ansible_facts | to_nice_json }}"
-        dest: "{{ playbook_dir }}/mac.json"
