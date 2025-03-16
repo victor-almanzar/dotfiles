@@ -1,13 +1,13 @@
 ---
-- name: Ensure tealdeer directory exists
+- name: MacOSX | Ensure tealdeer directory exists
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/Library/Application Support/tealdeer"
     state: directory
     mode: '0755'
 
-- name: Create tealdeer config symlink
+- name: MacOSX | Create tealdeer config symlink
   ansible.builtin.file:
     src: "{{ ansible_env.HOME }}/.config/tealdeer/config.toml"
     dest: "{{ ansible_env.HOME }}/Library/Application Support/tealdeer/config.toml"
     state: link
-    force: yes
+    force: true

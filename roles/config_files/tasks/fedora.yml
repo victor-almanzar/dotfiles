@@ -1,5 +1,5 @@
 ---
-- name: Apply Fedora-specific file modifications
+- name: Fedora | Apply Fedora-specific file modifications
   ansible.builtin.replace:
     path: "{{ item.path }}"
     regexp: "{{ item.regexp }}"
@@ -12,15 +12,15 @@
       regexp: '# homebrew\n    /opt/homebrew/bin/brew shellenv \| source\n'
       replace: ''
 
-- name: Ensure Foliate theme directory exists
+- name: Fedora | Ensure Foliate theme directory exists
   ansible.builtin.file:
     path: "{{ ansible_env.HOME }}/.var/app/com.github.johnfactotum.Foliate/config/com.github.johnfactotum.Foliate/themes"
     state: directory
     mode: '0755'
 
-- name: Create Foliate theme symlink
+- name: Fedora | Create Foliate theme symlink
   ansible.builtin.file:
     src: "{{ ansible_env.HOME }}/.config/foliate/tokyonight_night.json"
     dest: "{{ ansible_env.HOME }}/.var/app/com.github.johnfactotum.Foliate/config/com.github.johnfactotum.Foliate/themes/tokyonight_night.json"
     state: link
-    force: yes
+    force: true

@@ -15,6 +15,7 @@
     dest: "{{ item.item }}.bak"
     remote_src: true
     mode: 'preserve'
+    force: true
   loop: "{{ nvim_dirs.results }}"
   when: item.stat.exists and item.stat.isdir
 
