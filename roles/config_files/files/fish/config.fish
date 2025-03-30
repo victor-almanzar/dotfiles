@@ -40,10 +40,13 @@ if status is-interactive
     abbr find fd
 
     # aliases
-    alias ll "eza -lh --git --icons --time-style=iso --git-repos-no-status"
-    alias l. "ll -a -d .*"
-    alias ls "ll -1"
-    alias la "ll -a"
+    alias ls "eza -h --git --icons --time-style=iso --git-repos-no-status"
+    alias ll "ls -l --git-ignore"
+    alias l. "ls -l -a -d .*"
+    alias la "ls -l -a"
+    alias l1 "ls -1 --git-ignore"
+    alias tree "ls --git-ignore --tree"
+    alias trea "ls -a --tree"
 end
 
 # vim: set ft=fish ts=4 sw=4 et:
