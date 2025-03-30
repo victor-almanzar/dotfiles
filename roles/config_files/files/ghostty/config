@@ -2,6 +2,7 @@
 theme = tokyonight_night
 shell-integration = fish
 split-divider-color = 7AA2f7
+mouse-hide-while-typing = true
 
 # Prefix keybinds
 keybind = alt+c=new_tab

@@ -1,6 +1,10 @@
-- name: MacOSX | Enable sshd
-  community.general.launchd:
-    name: com.openssh.sshd
-    state: started
-    enabled: true
+- name: MacOSX | Check if SSH is enabled
   become: true
+  ansible.builtin.command: systemsetup -getremotelogin
+  register: ssh_status
+  changed_when: false
+
+- name: MacOSX | Enable sshd
+  become: true
+  ansible.builtin.command: launchctl load -w /System/Library/LaunchDaemons/ssh.plist
+  when: '"Remote Login: Off" in ssh_status.stdout'
