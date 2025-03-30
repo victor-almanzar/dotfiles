@@ -6,6 +6,7 @@ return {
       "stylua",
       "shfmt",
       "djlint",
+      "html-lsp",
     },
   },
 }
