@@ -24,4 +24,5 @@
   ansible.builtin.copy:
     src: "{{ ansible_env.HOME }}/.config/foliate/tokyonight_night.json"
     dest: "{{ ansible_env.HOME }}/.var/app/com.github.johnfactotum.Foliate/config/com.github.johnfactotum.Foliate/themes/tokyonight_night.json"
+    mode: '0644'
     remote_src: true
