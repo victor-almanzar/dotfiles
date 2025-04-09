@@ -7,17 +7,11 @@
     - "{{ ansible_env.HOME }}/.local/share/nvim"
     - "{{ ansible_env.HOME }}/.local/state/nvim"
     - "{{ ansible_env.HOME }}/.cache/nvim"
+    - "{{ ansible_env.HOME }}/.config/nvim.bak"
+    - "{{ ansible_env.HOME }}/.local/share/nvim.bak"
+    - "{{ ansible_env.HOME }}/.local/state/nvim.bak"
+    - "{{ ansible_env.HOME }}/.cache/nvim.bak"
   register: nvim_dirs
-
-- name: Backup existing Neovim directories
-  ansible.builtin.copy:
-    src: "{{ item.item }}"
-    dest: "{{ item.item }}.bak"
-    remote_src: true
-    mode: 'preserve'
-    force: true
-  loop: "{{ nvim_dirs.results }}"
-  when: backup_lazy is defined and backup_lazy | bool
 
 - name: Remove existing Neovim directories
   ansible.builtin.file:
