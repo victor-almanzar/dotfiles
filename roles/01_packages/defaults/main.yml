@@ -1,0 +1,34 @@
+---
+# Fedora specific packages
+fedora_packages:
+  - fd-find
+  - rg
+  - fish
+  - gcc
+  - gh
+  - git
+  - make
+  - neovim
+  - podlet
+  - podman
+  - podman-tui
+  - ripgrep
+  - tealdeer
+  - tealdeer
+  - uv
+  # Commented out until fixed on F42
+  # - ghostty
+
+# Fedora COPR repositories
+fedora_copr_repos:
+  # - pgdev/ghostty
+  - atim/lazygit
+  - alternateved/eza
+
+# Fedora flatpaks
+fedora_flatpaks:
+  - com.github.johnfactotum.Foliate
+  - com.github.tchx84.Flatseal
+  - io.github.flattool.Warehouse
+  - com.valvesoftware.Steam
+  - com.spotify.Client

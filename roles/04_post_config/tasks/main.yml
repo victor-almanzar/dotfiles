@@ -1,0 +1,14 @@
+- name: Enable sshd
+  ansible.builtin.systemd_service:
+    name: sshd
+    state: started
+    enabled: true
+  become: true
+
+- name: Build bat cache
+  ansible.builtin.command: bat cache --build
+  changed_when: false
+
+- name: Build tldr cache
+  ansible.builtin.command: tldr --update
+  changed_when: false

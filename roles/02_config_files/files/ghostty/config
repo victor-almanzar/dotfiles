@@ -1,8 +1,10 @@
 # Options
 theme = tokyonight_night
 shell-integration = fish
-# tokyonight_night: 7AA2f7
-# jellybeans: 556779
+window-theme = ghostty
+command = /usr/bin/fish
+font-size = 14
+gtk-titlebar-hide-when-maximized = true
 split-divider-color = 556779
 mouse-hide-while-typing = true
 

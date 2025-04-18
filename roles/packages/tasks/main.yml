@@ -1,8 +1,0 @@
----
-- name: Include macOS specific tasks
-  ansible.builtin.include_tasks: MacOSX.yml
-  when: ansible_facts['distribution'] == 'MacOSX'
-
-- name: Include Fedora specific tasks
-  ansible.builtin.include_tasks: Fedora.yml
-  when: ansible_facts['distribution'] == 'Fedora'

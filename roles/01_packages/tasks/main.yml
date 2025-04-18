@@ -1,18 +1,18 @@
 ---
-- name: Fedora | Enable COPR repositories
+- name: Enable COPR repositories
   community.general.copr:
     name: "{{ item }}"
     state: enabled
   loop: "{{ fedora_copr_repos }}"
   become: true
 
-- name: Fedora | Install Fedora packages
+- name: Install Fedora packages
   ansible.builtin.dnf5:
-    name: "{{ common_packages + fedora_packages }}"
+    name: "{{ fedora_packages }}"
     state: present
   become: true
 
-- name: Fedora | Install Flatpak applications
+- name: Install Flatpak applications
   community.general.flatpak:
     name: "{{ fedora_flatpaks }}"
     state: present

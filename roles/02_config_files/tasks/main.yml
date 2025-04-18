@@ -1,0 +1,19 @@
+---
+- name: Synchronize config directory to user's ~/.config
+  ansible.posix.synchronize:
+    src: "{{ role_path }}/files/"
+    dest: "{{ ansible_env.HOME }}/.config/"
+    recursive: true
+
+- name: Ensure Foliate theme directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.var/app/com.github.johnfactotum.Foliate/config/com.github.johnfactotum.Foliate/themes"
+    state: directory
+    mode: '0755'
+
+- name: Copy over foliate theme to flatpak location
+  ansible.builtin.copy:
+    src: "{{ ansible_env.HOME }}/.config/foliate/tokyonight_night.json"
+    dest: "{{ ansible_env.HOME }}/.var/app/com.github.johnfactotum.Foliate/config/com.github.johnfactotum.Foliate/themes/tokyonight_night.json"
+    mode: '0644'
+    remote_src: true
