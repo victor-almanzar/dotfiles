@@ -69,3 +69,28 @@
     key: "/org/gnome/desktop/interface/text-scaling-factor"
     value: "1.25"
     state: present
+
+- name: Configure custom keybindings
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings"
+    value: "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']"
+    state: present
+
+- name: Configure toggle-mouse shortcut binding
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding"
+    value: "'<Shift><Super>m'"
+    state: present
+
+- name: Configure toggle-mouse command
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/command"
+    value: "'bash /home/valman/.local/bin/toggle-mouse.sh'"
+    state: present
+
+- name: Configure toggle-mouse name
+  community.general.dconf:
+    key: "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name"
+    value: "'Toggle Mouse'"
+    state: present
+
