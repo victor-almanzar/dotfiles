@@ -1,19 +1,22 @@
 ---
 # Fedora specific packages
 fedora_packages:
+  - bat
+  - eza
   - fd-find
-  - rg
   - fish
+  - fzf
   - gcc
   - gh
   - git
+  - lazygit
   - make
   - neovim
   - podlet
   - podman
   - podman-tui
   - ripgrep
-  - tealdeer
+  - starship
   - tealdeer
   - uv
   # Commented out until fixed on F42
@@ -23,6 +26,7 @@ fedora_packages:
 fedora_copr_repos:
   # - pgdev/ghostty
   - atim/lazygit
+  - atim/starship
   - alternateved/eza
 
 # Fedora flatpaks
