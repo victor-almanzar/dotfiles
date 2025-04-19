@@ -2,9 +2,9 @@
 
 set -e
 
-if ! rpm -q python3 python3-pip python3-libdnf5 ansible &>/dev/null; then
+if ! rpm -q python3 python3-pip python3-libdnf5 python3-psutil ansible &>/dev/null; then
   echo "Installing required packages..."
-  sudo dnf install -y python3 python3-pip python3-libdnf5 ansible
+  sudo dnf install -y python3 python3-pip python3-libdnf5 python3-psutil ansible
 fi
 
 echo "Running Ansible playbook for $PLATFORM..."

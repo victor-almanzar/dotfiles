@@ -3,7 +3,8 @@
   hosts: all
   gather_facts: true
   roles:
-    - packages
-    - lazyvim
-    - config_files
-    - post_config
+    - 01_packages
+    - 02_config_files
+    - 03_lazyvim
+    - 04_nerdfont
+    - 05_post_config
