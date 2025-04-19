@@ -1,7 +1,7 @@
 ---
 - name: Synchronize config directory to user's ~/.config
   ansible.posix.synchronize:
-    src: "{{ role_path }}/files/"
+    src: "{{ role_path }}/files/config/"
     dest: "{{ ansible_env.HOME }}/.config/"
     recursive: true
 
