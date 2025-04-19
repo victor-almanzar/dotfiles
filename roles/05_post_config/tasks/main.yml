@@ -1,0 +1,71 @@
+- name: Enable sshd
+  ansible.builtin.systemd_service:
+    name: sshd
+    state: started
+    enabled: true
+  become: true
+
+- name: Build bat cache
+  ansible.builtin.command: bat cache --build
+  changed_when: false
+
+- name: Build tldr cache
+  ansible.builtin.command: tldr --update
+  changed_when: false
+
+# Ptyxis terminal settings
+- name: Configure Ptyxis font
+  community.general.dconf:
+    key: "/org/gnome/Ptyxis/font-name"
+    value: "'JetBrainsMono Nerd Font 12'"
+    state: present
+
+- name: Configure Ptyxis profile UUIDs
+  community.general.dconf:
+    key: "/org/gnome/Ptyxis/profile-uuids"
+    value: "['{{ ptyxis_profile }}']"
+    state: present
+
+- name: Disable system font for Ptyxis
+  community.general.dconf:
+    key: "/org/gnome/Ptyxis/use-system-font"
+    value: "false"
+    state: present
+
+# Ptyxis profile-specific settings
+- name: Set custom command for Ptyxis profile
+  community.general.dconf:
+    key: "/org/gnome/Ptyxis/Profiles/{{ ptyxis_profile }}/custom-command"
+    value: "'fish'"
+    state: present
+
+- name: Set label for Ptyxis profile
+  community.general.dconf:
+    key: "/org/gnome/Ptyxis/Profiles/{{ ptyxis_profile }}/label"
+    value: "'default'"
+    state: present
+
+- name: Set palette for Ptyxis profile
+  community.general.dconf:
+    key: "/org/gnome/Ptyxis/Profiles/{{ ptyxis_profile }}/palette"
+    value: "'Tokyo Night'"
+    state: present
+
+- name: Enable custom command for Ptyxis profile
+  community.general.dconf:
+    key: "/org/gnome/Ptyxis/Profiles/{{ ptyxis_profile }}/use-custom-command"
+    value: "true"
+    state: present
+
+# GNOME desktop interface settings
+- name: Set dark color scheme
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/color-scheme"
+    value: "'prefer-dark'"
+    state: present
+
+- name: Set text scaling factor
+  community.general.dconf:
+    key: "/org/gnome/desktop/interface/text-scaling-factor"
+    value: "1.25"
+    state: present

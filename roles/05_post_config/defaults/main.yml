@@ -1,0 +1,1 @@
+ptyxis_profile: "{{ lookup('env', 'PTYXIS_PROFILE') }}"
