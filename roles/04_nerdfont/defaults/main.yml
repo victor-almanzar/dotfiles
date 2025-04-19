@@ -1,0 +1,2 @@
+font_name: "JetBrainsMono"
+font_dir: "{{ ansible_env.HOME }}/.local/share/fonts/{{ font_name }}"

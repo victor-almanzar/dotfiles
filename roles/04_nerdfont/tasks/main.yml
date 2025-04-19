@@ -1,0 +1,43 @@
+- name: Get latest release tag
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest
+    return_content: true
+  register: github_response
+
+- name: Set release tag
+  ansible.builtin.set_fact:
+    release_tag: "{{ github_response.json.tag_name }}"
+
+- name: Create font directory
+  ansible.builtin.file:
+    path: "{{ font_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Download Nerd Font tarball
+  ansible.builtin.get_url:
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/download/{{ release_tag }}/{{ font_name }}.tar.xz"
+    dest: "/tmp/{{ font_name }}.tar.xz"
+    mode: "0644"
+
+- name: Extract font archive
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ font_name }}.tar.xz"
+    dest: "{{ font_dir }}"
+    remote_src: true
+
+- name: Clean font cache
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.cache/fontconfig"
+    state: absent
+
+- name: Update font cache
+  ansible.builtin.command: fc-cache -f
+  register: fc_cache_result
+  changed_when: fc_cache_result.rc == 0
+  ignore_errors: true
+
+- name: Delete Nerd Font tarball
+  ansible.builtin.file:
+    path: "/tmp/{{ font_name }}.tar.xz"
+    state: absent
