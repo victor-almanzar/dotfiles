@@ -18,6 +18,7 @@ fedora_packages:
   - ripgrep
   - starship
   - tealdeer
+  - tmux
   - uv
   # Commented out until fixed on F42
   # - ghostty
