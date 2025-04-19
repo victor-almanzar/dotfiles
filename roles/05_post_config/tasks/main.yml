@@ -13,7 +13,7 @@
   ansible.builtin.command: tldr --update
   changed_when: false
 
-# Ptyxis terminal settings
+# Ptyxis settings
 - name: Configure Ptyxis font
   community.general.dconf:
     key: "/org/gnome/Ptyxis/font-name"
@@ -32,7 +32,6 @@
     value: "false"
     state: present
 
-# Ptyxis profile-specific settings
 - name: Set custom command for Ptyxis profile
   community.general.dconf:
     key: "/org/gnome/Ptyxis/Profiles/{{ ptyxis_profile }}/custom-command"
@@ -57,7 +56,7 @@
     value: "true"
     state: present
 
-# GNOME desktop interface settings
+# GNOME settings
 - name: Set dark color scheme
   community.general.dconf:
     key: "/org/gnome/desktop/interface/color-scheme"
@@ -94,3 +93,8 @@
     value: "'Toggle Mouse'"
     state: present
 
+- name: Configure fullscreen toggle shortcut
+  community.general.dconf:
+    key: "/org/gnome/desktop/wm/keybindings/toggle-fullscreen"
+    value: "['<Super>f']"
+    state: present
