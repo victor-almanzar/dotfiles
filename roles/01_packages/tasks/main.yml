@@ -1,8 +1,13 @@
 ---
+- name: Check if running on Fedora Asahi
+  ansible.builtin.set_fact:
+    is_fedora_asahi: "{{ 'asahi' in ansible_kernel }}"
+
 - name: Enable COPR repositories
   community.general.copr:
     name: "{{ item }}"
     state: enabled
+    chroot: "{{ 'fedora-42-aarch64' if is_fedora_asahi else omit }}"
   loop: "{{ fedora_copr_repos }}"
   become: true
 
@@ -17,3 +22,4 @@
     name: "{{ fedora_flatpaks }}"
     state: present
   become: true
+  when: not is_fedora_asahi | bool
