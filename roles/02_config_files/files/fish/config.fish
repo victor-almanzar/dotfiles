@@ -8,7 +8,7 @@ if status is-interactive
     fish_add_path -g ~/.cargo/bin
 
     # starship
-    set -gx STARSHIP_CONFIG "$HOME/.config/starship/config.toml"
+    set -gx STARSHIP_CONFIG "$HOME/.config/starship/starship.toml"
     starship init fish | source
 
     # eza
@@ -41,6 +41,12 @@ if status is-interactive
     abbr gd "git diff"
     abbr grep rg
     abbr find fd
+    abbr an ansible
+    abbr anp ansible-playbook
+    abbr and ansible-document
+    abbr anv ansible-vault
+    abbr anc ansible-config
+    abbr ani ansible-inventory
 
     # aliases
     alias ls "eza -h --git --icons --time-style=iso --git-repos-no-status"
