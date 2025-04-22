@@ -2,6 +2,7 @@
 # Fedora specific packages
 fedora_packages:
   - bat
+  - cargo
   - eza
   - fd-find
   - fish
