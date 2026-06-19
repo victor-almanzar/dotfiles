@@ -1,0 +1,41 @@
+##############################
+## Configuration for lsp-ai ##
+##############################
+
+[language-server.lsp-ai]
+command = "lsp-ai"
+
+[language-server.lsp-ai.config.memory]
+file_store = { }
+
+[language-server.lsp-ai.config.models.qwen]
+type = "ollama"
+model = "qwen2.5-coder:3b"
+
+[language-server.lsp-ai.config.completion]
+model = "qwen"
+
+[language-server.lsp-ai.config.completion.parameters]
+max_tokens = 64
+max_context = 1024
+
+[language-server.lsp-ai.config.completion.parameters.fim]
+start = "<|fim_prefix|>"
+middle = "<|fim_suffix|>"
+end = "<|fim_middle|>"
+
+#################################
+## Configuration for languages ##
+#################################
+
+[[language]]
+name = "python"
+language-servers = ["ty", "ruff", "lsp-ai"]
+
+[[language]]
+name = "go"
+language-servers = ["gopls", "lsp-ai"]
+
+[[language]]
+name = "bash"
+language-servers = ["bash-language-server", "lsp-ai"]
