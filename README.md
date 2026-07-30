@@ -20,3 +20,14 @@ tools, and regenerates the Nushell integrations.
 
 The bootstrap is safe to run again. An existing checkout is updated with a
 fast-forward-only pull before mise converges the machine.
+
+### Existing dotfiles
+
+Mise refuses to overwrite existing files by default. Move conflicting files
+somewhere safe before rerunning the bootstrap, or explicitly replace them:
+
+```sh
+curl --proto '=https' --tlsv1.2 -fsSL \
+  https://raw.githubusercontent.com/victor-almanzar/dotfiles/main/bootstrap.sh |
+  DOTFILES_FORCE=1 sh
+```

@@ -35,7 +35,25 @@ fi
 
 config_file="$repo_dir/config-mise/config.toml"
 "$mise_bin" trust "$config_file"
-MISE_CONFIG_FILE="$config_file" "$mise_bin" bootstrap --yes
+
+if [ "${DOTFILES_FORCE:-0}" = "1" ]; then
+  MISE_CONFIG_FILE="$config_file" "$mise_bin" bootstrap --yes --force-dotfiles
+else
+  if ! MISE_CONFIG_FILE="$config_file" "$mise_bin" bootstrap --yes; then
+    cat >&2 <<'EOF'
+
+dotfiles bootstrap: setup did not complete.
+
+If mise reported existing dotfile conflicts, either move those files somewhere
+safe and rerun this script, or explicitly replace them with:
+
+  curl --proto '=https' --tlsv1.2 -fsSL \
+    https://raw.githubusercontent.com/victor-almanzar/dotfiles/main/bootstrap.sh |
+    DOTFILES_FORCE=1 sh
+EOF
+    exit 1
+  fi
+fi
 
 echo
 echo "Dotfiles bootstrap complete. Start a new shell to load the new environment."
