@@ -71,13 +71,12 @@ fi
 MISE_CONFIG_DIR="$repo_dir/config-mise" "$mise_bin" bootstrap --yes
 
 echo
-echo "dotfiles bootstrap: running mise doctor"
+echo "dotfiles bootstrap: checking mise through $HOME/.bashrc"
 (
   unset MISE_CONFIG_DIR
   bash -c '
-    mise_bin=$1
-    eval "$("$mise_bin" activate bash)"
-    "$mise_bin" doctor
+    . "$HOME/.bashrc"
+    "$1" doctor
   ' sh "$mise_bin"
 )
 
@@ -85,4 +84,8 @@ echo
 if [ -n "$backup_dir" ]; then
   echo "Previous dotfiles backup: $backup_dir"
 fi
-echo "Dotfiles bootstrap complete. Start a new shell to load the new environment."
+echo "Dotfiles bootstrap complete."
+echo "The shell that launched this script cannot be modified by a child process."
+echo "Activate mise now with:"
+echo "  . \"$HOME/.bashrc.d/90-mise.sh\""
+echo "New Bash sessions will activate mise automatically."
