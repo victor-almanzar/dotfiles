@@ -3,6 +3,7 @@ gh = "latest"
 lazygit = "latest"
 usage = "latest"
 node = "latest"
+go = "latest"
 tlrc = "latest"
 uv = "latest"
 bat = "latest"
@@ -29,7 +30,7 @@ fastfetch = "latest"
 zoxide = "latest"
 "npm:@doist/todoist-cli" = "latest"
 gopass = "latest"
-"npm:@stephendolan/ynab-cli" = "latest"
+"npm:@stephendolan/ynab-cli" = { version = "latest", allow_low_downloads = true }
 bitwarden-secrets-manager = "latest"
 delta = "latest"
 opentofu = "latest"
@@ -57,6 +58,9 @@ default_mode = "symlink"
 "~/.config/fish/config.fish" = { source = "../config-fish/config.fish" }
 "~/.config/nushell/config.nu" = { source = "../config-nushell/config.nu" }
 "~/.config/nushell/env.nu" = { source = "../config-nushell/env.nu" }
+
+[bootstrap.hooks.pre-tools]
+run = "mise install go"
 
 [tasks.hx-deps]
 description = "Layer the C/C++ toolchain helix's grammar build needs"
