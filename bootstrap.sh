@@ -72,7 +72,14 @@ MISE_CONFIG_DIR="$repo_dir/config-mise" "$mise_bin" bootstrap --yes
 
 echo
 echo "dotfiles bootstrap: running mise doctor"
-"$mise_bin" doctor
+(
+  unset MISE_CONFIG_DIR
+  bash -c '
+    mise_bin=$1
+    eval "$("$mise_bin" activate bash)"
+    "$mise_bin" doctor
+  ' sh "$mise_bin"
+)
 
 echo
 if [ -n "$backup_dir" ]; then
