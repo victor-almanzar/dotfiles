@@ -5,12 +5,19 @@ set -euo pipefail
 
 data_home="${XDG_DATA_HOME:-$HOME/.local/share}"
 autoload_dir="${NUSHELL_AUTOLOAD_DIR:-$data_home/nushell/vendor/autoload}"
+vendor_dir="${NUSHELL_VENDOR_DIR:-$(dirname "$autoload_dir")}"
 stage_dir="$(mktemp -d)"
 trap 'rm -rf -- "$stage_dir"' EXIT
 
-mise activate nu > "$stage_dir/mise.nu"
-starship init nu > "$stage_dir/starship.nu"
-zoxide init nushell > "$stage_dir/zoxide.nu"
+mise activate nu > "$stage_dir/mise.module"
+printf '%s\n' \
+  'export use ../mise.nu' \
+  'export-env {' \
+  '  use ../mise.nu' \
+  '}' \
+  > "$stage_dir/00-mise-loader.nu"
+zoxide init nushell > "$stage_dir/20-zoxide.nu"
+starship init nu > "$stage_dir/30-starship.nu"
 
 for tool in uv ruff ty; do
   "$tool" generate-shell-completion nushell > "$stage_dir/50-$tool-completions.nu"
@@ -25,11 +32,13 @@ printf '\nuse completions *\n' >> "$stage_dir/50-watchexec-completions.nu"
 
 carapace _carapace nushell > "$stage_dir/90-carapace.nu"
 
-mkdir -p "$autoload_dir"
+mkdir -p "$vendor_dir" "$autoload_dir"
+install -m 0644 "$stage_dir/mise.module" "$vendor_dir/mise.nu"
 rm -f -- \
   "$autoload_dir/10-mise.nu" \
-  "$autoload_dir/20-zoxide.nu" \
-  "$autoload_dir/30-starship.nu"
+  "$autoload_dir/mise.nu" \
+  "$autoload_dir/starship.nu" \
+  "$autoload_dir/zoxide.nu"
 for generated in "$stage_dir"/*.nu; do
   install -m 0644 "$generated" "$autoload_dir/$(basename "$generated")"
 done
