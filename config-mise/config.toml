@@ -30,7 +30,6 @@ fastfetch = "latest"
 zoxide = "latest"
 "npm:@doist/todoist-cli" = "latest"
 gopass = "latest"
-"npm:@stephendolan/ynab-cli" = { version = "latest", allow_low_downloads = true }
 bitwarden-secrets-manager = "latest"
 delta = "latest"
 opentofu = "latest"
