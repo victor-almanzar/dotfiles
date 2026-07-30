@@ -9,8 +9,8 @@ stage_dir="$(mktemp -d)"
 trap 'rm -rf -- "$stage_dir"' EXIT
 
 mise activate nu > "$stage_dir/mise.nu"
-zoxide init nushell > "$stage_dir/20-zoxide.nu"
-starship init nu > "$stage_dir/30-starship.nu"
+starship init nu > "$stage_dir/starship.nu"
+zoxide init nushell > "$stage_dir/zoxide.nu"
 
 for tool in uv ruff ty; do
   "$tool" generate-shell-completion nushell > "$stage_dir/50-$tool-completions.nu"
@@ -26,7 +26,10 @@ printf '\nuse completions *\n' >> "$stage_dir/50-watchexec-completions.nu"
 carapace _carapace nushell > "$stage_dir/90-carapace.nu"
 
 mkdir -p "$autoload_dir"
-rm -f -- "$autoload_dir/10-mise.nu"
+rm -f -- \
+  "$autoload_dir/10-mise.nu" \
+  "$autoload_dir/20-zoxide.nu" \
+  "$autoload_dir/30-starship.nu"
 for generated in "$stage_dir"/*.nu; do
   install -m 0644 "$generated" "$autoload_dir/$(basename "$generated")"
 done
