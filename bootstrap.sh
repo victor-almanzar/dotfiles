@@ -68,7 +68,7 @@ if [ -n "$backup_dir" ]; then
   echo "dotfiles bootstrap: existing files were preserved in $backup_dir"
 fi
 
-MISE_CONFIG_FILE="$config_file" "$mise_bin" bootstrap --yes
+MISE_CONFIG_DIR="$repo_dir/config-mise" "$mise_bin" bootstrap --yes
 
 echo
 if [ -n "$backup_dir" ]; then
