@@ -1,0 +1,15 @@
+onboarding = false
+terminal.default_shell = "nu"
+keys.prefix = "ctrl+a"
+keys.focus_pane_left  = "alt+h"
+keys.focus_pane_down  = "alt+j"
+keys.focus_pane_up    = "alt+k"
+keys.focus_pane_right = "alt+l"
+keys.previous_tab     = "alt+p"
+keys.next_tab         = "alt+n"
+ui.prompt_new_tab_name = false
+ui.pane_gaps = false
+
+[theme]
+name = "rose-pine"
+auto_switch = false

@@ -1,0 +1,11 @@
+# Machine-local configuration and credentials
+config-mise/local.toml
+config-mise/config.local.toml
+
+# Common mise local overrides
+mise.local.toml
+.mise.local.toml
+
+# Editor and OS debris
+*~
+.DS_Store

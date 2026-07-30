@@ -1,0 +1,2 @@
+#!/usr/bin/env nu
+let myvar = herdr pane neighbor --direction down | from json
