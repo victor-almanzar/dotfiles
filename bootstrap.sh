@@ -36,24 +36,42 @@ fi
 config_file="$repo_dir/config-mise/config.toml"
 "$mise_bin" trust "$config_file"
 
-if [ "${DOTFILES_FORCE:-0}" = "1" ]; then
-  MISE_CONFIG_FILE="$config_file" "$mise_bin" bootstrap --yes --force-dotfiles
-else
-  if ! MISE_CONFIG_FILE="$config_file" "$mise_bin" bootstrap --yes; then
-    cat >&2 <<'EOF'
+targets_file="$(mktemp)"
+trap 'rm -f -- "$targets_file"' EXIT HUP INT TERM
 
-dotfiles bootstrap: setup did not complete.
+"$mise_bin" config get -f "$config_file" dotfiles |
+  sed -n 's/^\["\(~\/.*\)"\]$/\1/p' > "$targets_file"
 
-If mise reported existing dotfile conflicts, either move those files somewhere
-safe and rerun this script, or explicitly replace them with:
+backup_dir=""
+while IFS= read -r target; do
+  target="$HOME/${target#\~/}"
 
-  curl --proto '=https' --tlsv1.2 -fsSL \
-    https://raw.githubusercontent.com/victor-almanzar/dotfiles/main/bootstrap.sh |
-    DOTFILES_FORCE=1 sh
-EOF
-    exit 1
+  # Mise can safely repoint symlinks, including broken ones. Only real files
+  # and directories need to be moved out of its way.
+  if [ -L "$target" ] || [ ! -e "$target" ]; then
+    continue
   fi
+
+  if [ -z "$backup_dir" ]; then
+    state_home="${XDG_STATE_HOME:-$HOME/.local/state}"
+    backup_dir="$state_home/dotfiles/backups/$(date +%Y%m%d-%H%M%S)-$$"
+  fi
+
+  relative_target="${target#"$HOME"/}"
+  backup_target="$backup_dir/$relative_target"
+  mkdir -p "$(dirname "$backup_target")"
+  mv -- "$target" "$backup_target"
+  echo "dotfiles bootstrap: backed up $target"
+done < "$targets_file"
+
+if [ -n "$backup_dir" ]; then
+  echo "dotfiles bootstrap: existing files were preserved in $backup_dir"
 fi
 
+MISE_CONFIG_FILE="$config_file" "$mise_bin" bootstrap --yes
+
 echo
+if [ -n "$backup_dir" ]; then
+  echo "Previous dotfiles backup: $backup_dir"
+fi
 echo "Dotfiles bootstrap complete. Start a new shell to load the new environment."

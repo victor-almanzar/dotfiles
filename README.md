@@ -23,11 +23,8 @@ fast-forward-only pull before mise converges the machine.
 
 ### Existing dotfiles
 
-Mise refuses to overwrite existing files by default. Move conflicting files
-somewhere safe before rerunning the bootstrap, or explicitly replace them:
-
-```sh
-curl --proto '=https' --tlsv1.2 -fsSL \
-  https://raw.githubusercontent.com/victor-almanzar/dotfiles/main/bootstrap.sh |
-  DOTFILES_FORCE=1 sh
-```
+Before mise applies the repository, the bootstrap moves conflicting regular
+files and directories into a timestamped directory under
+`${XDG_STATE_HOME:-$HOME/.local/state}/dotfiles/backups`. Their paths relative
+to `$HOME` are preserved, and the exact backup location is printed. Existing
+symlinks are left for mise to repoint safely.
