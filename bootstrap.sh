@@ -71,6 +71,10 @@ fi
 MISE_CONFIG_DIR="$repo_dir/config-mise" "$mise_bin" bootstrap --yes
 
 echo
+echo "dotfiles bootstrap: running mise doctor"
+"$mise_bin" doctor
+
+echo
 if [ -n "$backup_dir" ]; then
   echo "Previous dotfiles backup: $backup_dir"
 fi

@@ -57,6 +57,7 @@ default_mode = "symlink"
 "~/.config/fish/config.fish" = { source = "~/.config/mise/dotfiles/config-fish/config.fish" }
 "~/.config/nushell/config.nu" = { source = "~/.config/mise/dotfiles/config-nushell/config.nu" }
 "~/.config/nushell/env.nu" = { source = "~/.config/mise/dotfiles/config-nushell/env.nu" }
+"~/.bashrc.d/90-mise.sh" = { source = "~/.config/mise/dotfiles/config-bash/90-mise.sh" }
 
 [bootstrap.hooks.pre-tools]
 run = "mise install go"
