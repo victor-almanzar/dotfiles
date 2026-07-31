@@ -14,4 +14,5 @@ $env.config.abbreviations = {
   glf: "git ls-files"  
   ll: "ls | sort-by modified"
   dots: "mise bootstrap dotfiles apply"
+  lg: "lazygit"
 }
