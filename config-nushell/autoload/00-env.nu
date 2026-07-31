@@ -1,3 +1,7 @@
+$env.config.table.mode = "none"
+$env.config.auto_cd_implicit = true
+$env.config.cursor_shape.emacs = "block"
+$env.config.ls.clickable_links = false
 $env.config.show_banner = false
 $env.config.buffer_editor = "hx"
 $env.EDITOR = "hx"
