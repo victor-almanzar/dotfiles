@@ -1,6 +1,6 @@
 onboarding = false
 terminal.default_shell = "nu"
-keys.prefix = "ctrl+s"
+keys.prefix = "{% if exec(command='hostname') | trim == 'fedora-bootc' %}ctrl+a{% else %}ctrl+s{% endif %}"
 ui.prompt_new_tab_name = false
 ui.pane_gaps = false
 ui.sidebar_start_collapsed = true
