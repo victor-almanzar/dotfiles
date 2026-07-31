@@ -20,6 +20,7 @@ btop = "latest"
 shellcheck = "latest"
 shfmt = "latest"
 herdr = "latest"
+helix = "latest"
 starship = "latest"
 lnav = "latest"
 rust-analyzer = "latest"
@@ -56,9 +57,9 @@ default_mode = "symlink"
 "~/.config/herdr/config.toml" = { source = "~/.config/mise/dotfiles/config-herdr/config.toml.tmpl", mode = "template" }
 "~/.config/nushell/config.nu" = { source = "~/.config/mise/dotfiles/config-nushell/config.nu" }
 "~/.config/nushell/autoload/00-env.nu" = { source = "~/.config/mise/dotfiles/config-nushell/autoload/00-env.nu" }
+"~/.config/nushell/autoload/10-helix-source.nu" = { source = "~/.config/mise/dotfiles/config-nushell/autoload/10-helix-source.nu" }
 "~/.config/nushell/env.nu" = { source = "~/.config/mise/dotfiles/config-nushell/env.nu" }
 "~/.bashrc.d/90-mise.sh" = { source = "~/.config/mise/dotfiles/config-bash/90-mise.sh" }
 
 [bootstrap.hooks.pre-tools]
 run = "mise install go"
-
