@@ -55,7 +55,7 @@ default_mode = "symlink"
 "~/.config/helix/languages.toml" = { source = "~/.config/mise/dotfiles/config-helix/languages.toml" }
 "~/.config/herdr/config.toml" = { source = "~/.config/mise/dotfiles/config-herdr/config.toml" }
 "~/.config/nushell/config.nu" = { source = "~/.config/mise/dotfiles/config-nushell/config.nu" }
-"~/.config/nushell/command.nu" = { source = "~/.config/mise/dotfiles/config-nushell/command.nu" }
+"~/.config/nushell/autoload/00-env.nu" = { source = "~/.config/mise/dotfiles/config-nushell/autoload/00-env.nu" }
 "~/.config/nushell/env.nu" = { source = "~/.config/mise/dotfiles/config-nushell/env.nu" }
 "~/.bashrc.d/90-mise.sh" = { source = "~/.config/mise/dotfiles/config-bash/90-mise.sh" }
 

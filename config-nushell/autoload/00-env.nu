@@ -13,5 +13,5 @@ $env.config.abbreviations = {
   gf: "git fetch"
   glf: "git ls-files"  
   ll: "ls | sort-by modified"
-  dots: "mise bootsrap dotfiles apply"
+  dots: "mise bootstrap dotfiles apply"
 }
