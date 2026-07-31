@@ -16,7 +16,6 @@ $env.config.abbreviations = {
   gp: "git push"
   gf: "git fetch"
   glf: "git ls-files"  
-  ll: "ls | sort-by modified"
   dots: "mise bootstrap dotfiles apply"
   lg: "lazygit"
 }
