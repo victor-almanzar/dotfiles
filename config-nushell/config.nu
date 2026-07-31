@@ -16,17 +16,3 @@
 # You can also pretty-print and page through the documentation for configuration
 # options using:
 #     config nu --doc | nu-highlight | less -R
-
-$env.config.show_banner = false
-$env.config.buffer_editor = "hx"
-$env.EDITOR = "hx"
-
-alias gs = git status
-alias gd = git diff
-alias gl = git log
-alias ga = git add
-alias gc = git commit -m
-alias gr = git restore
-alias gp = git push
-alias gf = git fetch
-
