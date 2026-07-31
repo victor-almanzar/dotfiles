@@ -55,35 +55,11 @@ default_mode = "symlink"
 "~/.config/helix/languages.toml" = { source = "~/.config/mise/dotfiles/config-helix/languages.toml" }
 "~/.config/herdr/config.toml" = { source = "~/.config/mise/dotfiles/config-herdr/config.toml" }
 "~/.config/nushell/config.nu" = { source = "~/.config/mise/dotfiles/config-nushell/config.nu" }
+"~/.config/nushell/command.nu" = { source = "~/.config/mise/dotfiles/config-nushell/command.nu" }
 "~/.config/nushell/env.nu" = { source = "~/.config/mise/dotfiles/config-nushell/env.nu" }
 "~/.bashrc.d/90-mise.sh" = { source = "~/.config/mise/dotfiles/config-bash/90-mise.sh" }
 
 [bootstrap.hooks.pre-tools]
 run = "mise install go"
 
-[tasks.hx-deps]
-description = "Layer the C/C++ toolchain helix's grammar build needs"
-hide = true
-run = 'command -v cc >/dev/null && command -v c++ >/dev/null || rpm-ostree install -Ay --idempotent gcc gcc-c++'
 
-[tasks.hx-build]
-description = "Build helix from the clone at ~/src/helix"
-depends = ["hx-deps"]
-dir = "~/src/helix"
-hide = true
-run = "cargo build --release --locked"
-
-[tasks.hx-update]
-description = "Pull helix master and rebuild"
-depends = ["hx-deps"]
-dir = "~/src/helix"
-hide = true
-run = [
-  "git pull --ff-only",
-  "cargo build --release --locked",
-  "./target/release/hx --version",
-]
-
-[tasks.bootstrap]
-description = "Finish workstation setup after mise bootstrap installs tools"
-depends = ["nushell-codegen"]
