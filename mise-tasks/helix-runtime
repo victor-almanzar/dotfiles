@@ -1,0 +1,33 @@
+#!/usr/bin/env nu
+#MISE description="Link Helix runtime files from its latest Cargo checkout"
+
+def main []: nothing -> nothing {
+    try {
+        let runtime = (
+      "~/.cargo/git/checkouts/*"
+      | glob $in
+      | each {|p| ls $p }
+      | flatten
+      | where $in.name =~ helix
+      | sort-by modified
+      | last
+      | get name
+      | path join runtime
+    )
+
+        let runtime_link = $nu.home-dir | path join .config helix runtime
+        mkdir ($runtime_link | path dirname)
+        rm --recursive --force $runtime_link
+
+        let result = ln -s $runtime $runtime_link | complete
+        if $result.exit_code != 0 {
+            error make {
+                msg: ($result.stderr | str trim)
+                label: {
+                    text: "failed to link Helix runtime"
+                    span: (metadata $runtime_link).span
+                }
+            }
+        }
+    } catch {|err| error make $err }
+}
