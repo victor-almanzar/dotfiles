@@ -28,7 +28,6 @@ watchexec = "latest"
 television = "latest"
 fastfetch = "latest"
 zoxide = "latest"
-"npm:@doist/todoist-cli" = "latest"
 gopass = "latest"
 bitwarden-secrets-manager = "latest"
 delta = "latest"
@@ -40,6 +39,11 @@ ffmpeg = "latest"
 codex = "latest"
 "aqua:nushell/nushell" = "latest"
 carapace = "latest"
+
+[tools."npm:@doist/todoist-cli"]
+version = "latest"
+depends = ["aqua:nushell/nushell"]
+postinstall = "mise run --skip-tools todoist-completions"
 
 [tools."cargo:helix-editor/helix"]
 version = "branch:master"
@@ -61,6 +65,7 @@ default_mode = "symlink"
 "~/.config/herdr/config.toml" = { source = "~/.config/mise/dotfiles/config-herdr/config.toml.tmpl", mode = "template" }
 "~/.config/nushell/config.nu" = { source = "~/.config/mise/dotfiles/config-nushell/config.nu" }
 "~/.config/nushell/autoload/00-env.nu" = { source = "~/.config/mise/dotfiles/config-nushell/autoload/00-env.nu" }
+"~/.config/nushell/autoload/td.nu" = { source = "~/.config/mise/dotfiles/config-nushell/autoload/td.nu" }
 "~/.config/nushell/env.nu" = { source = "~/.config/mise/dotfiles/config-nushell/env.nu" }
 "~/.bashrc.d/90-mise.sh" = { source = "~/.config/mise/dotfiles/config-bash/90-mise.sh" }
 

@@ -1,0 +1,8 @@
+#!/usr/bin/env nu
+#MISE description="Warm Nushell completions for Todoist CLI"
+
+source ~/.config/nushell/autoload/td.nu
+
+def main []: nothing -> nothing {
+    td-completion-cache warm
+}
